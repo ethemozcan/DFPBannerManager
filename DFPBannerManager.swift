@@ -1,6 +1,5 @@
 //
 //  DFPBannerManager.swift
-//  headlines
 //
 //  Created by Ethem Ozcan on 23/10/15.
 //  Copyright © 2015 Ethem Ozcan. All rights reserved.
@@ -23,7 +22,7 @@ class DFPBannerManager: NSObject, GADBannerViewDelegate{
 
 	private var adView : DFPBannerView = DFPBannerView(adSize: kGADAdSizeBanner)
 	private var adViewHolder : UIView = UIView(frame: CGRectZero)
-	private var adViewBottomConstrait : NSLayoutConstraint = NSLayoutConstraint()
+	private var adViewBottomConstraint : NSLayoutConstraint = NSLayoutConstraint()
 	private var rootViewController : UIViewController
 	private var adUnitID : String
 	private var additionalParameters : [NSObject : AnyObject]?
@@ -52,7 +51,7 @@ class DFPBannerManager: NSObject, GADBannerViewDelegate{
 
 		// Intialize Holder constraints
 		adViewHolder.translatesAutoresizingMaskIntoConstraints = false
-		adViewBottomConstrait = NSLayoutConstraint(item: adViewHolder, attribute: .Bottom, relatedBy: .Equal,
+		adViewBottomConstraint = NSLayoutConstraint(item: adViewHolder, attribute: .Bottom, relatedBy: .Equal,
 			toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: 0)
 
 		let holderConstraints : [NSLayoutConstraint] = [
@@ -69,12 +68,12 @@ class DFPBannerManager: NSObject, GADBannerViewDelegate{
 				attribute: .Trailing,
 				multiplier: 1.0,
 				constant: 0),
-			adViewBottomConstrait
+			adViewBottomConstraint
 		]
 		containerView.addConstraints(holderConstraints)
 
-		
-		// Create Banner 
+
+		// Create Banner
 		adViewHolder.addSubview(adView)
 
 
@@ -113,7 +112,7 @@ class DFPBannerManager: NSObject, GADBannerViewDelegate{
 	func showBannerView(){
 		adViewVisible = true
 		adViewHolder.layoutIfNeeded()
-		adViewBottomConstrait.constant = 0.0
+		adViewBottomConstraint.constant = 0.0
 
 		UIView.animateWithDuration(0.3,
 			delay: 0.0,
@@ -126,7 +125,7 @@ class DFPBannerManager: NSObject, GADBannerViewDelegate{
 	func hideBannerView(){
 		adViewVisible = false
 		adViewHolder.layoutIfNeeded()
-		adViewBottomConstrait.constant = adSize.height
+		adViewBottomConstraint.constant = adSize.height
 
 		UIView.animateWithDuration(0.3,
 			delay: 0.0,
@@ -141,7 +140,7 @@ class DFPBannerManager: NSObject, GADBannerViewDelegate{
 		adView.adUnitID = adUnitID
 		adView.rootViewController = rootViewController
 		adView.delegate = self
-		dfpRequest()
+		DFPRequest()
 	}
 
 	func loadAdBanner(additionalParameters : [NSObject : AnyObject]){
@@ -149,10 +148,10 @@ class DFPBannerManager: NSObject, GADBannerViewDelegate{
 		adView.adUnitID = adUnitID
 		adView.rootViewController = rootViewController
 		adView.delegate = self
-		dfpRequest()
+		DFPRequest()
 	}
 
-	private func dfpRequest(){
+	private func DFPRequest(){
 		let request = GADRequest()
 		request.testDevices = [ kDFPSimulatorID ]
 
@@ -180,47 +179,3 @@ class DFPBannerManager: NSObject, GADBannerViewDelegate{
 		delegate?.adView(bannerView, didFailToReceiveAdWithError: error)
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
